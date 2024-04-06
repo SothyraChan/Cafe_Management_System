@@ -2,12 +2,15 @@ const express = require('express');
 const path = require('path');
 const sequelize = require('./config/database');
 const cors = require('cors');
+const helmet = require('helmet');
 const app = express();
+const customerRoutes = require('./routes/customerRoutes');
 const PORT = process.env.PORT || 5000;
 
-// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+app.use(helmet());
+app.use('/api/customers', customerRoutes);
 // API route
 app.get('/api/v1', (req, res) => {
   res.json({
