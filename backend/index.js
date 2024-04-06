@@ -8,10 +8,12 @@ const customerRoutes = require('./routes/customerRoutes');
 const PORT = process.env.PORT || 5000;
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 app.use(helmet());
 app.use('/api/customers', customerRoutes);
-// API route
+
 app.get('/api/v1', (req, res) => {
   res.json({
     project: "React and Express Boilerplate",
@@ -19,7 +21,7 @@ app.get('/api/v1', (req, res) => {
   });
 });
 
-// All other GET requests not handled before will return the React app
+
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
